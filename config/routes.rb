@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+
+  #method call, pass in a hash parameter
+  #get({'/hello_world' => 'application#hello_world'})
+  #if a hash is the last argument, can drop braces
+  get "/hello_world" => 'application#hello_world'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
