@@ -17,9 +17,19 @@
               <%= post["created_At"] %>
             </em>
           </small>
+
+          <a href="/edit_post/<%= post['id'] %>">Edit</a>
+
+          <form method="post" action="/delete_post/<%= post['id'] %>" style="display: inline">
+            <input type="submit" value="Delete" />
+          </form>
+
         </div>
         <hr />
       <% end %>
     </div>
+
+    <a href="/new_post">New Post</a>
+
   </body>
 </html>
