@@ -1,23 +1,5 @@
-class Post
+class Post < BaseModel
   attr_reader :id, :title, :body, :author, :created_At, :errors
-
-  def self.find(id)
-    post_hash = connection.execute("SELECT * FROM posts WHERE posts.id = ? LIMIT 1", id).first
-    Post.new(post_hash)
-  end
-
-  def self.all
-    post_hashes = connection.execute("SELECT * FROM posts")
-    post_hashes.map do |post_hash|
-      Post.new(post_hash)
-    end
-  end
-
-  def self.connection
-    db_connection = SQLite3::Database.new "db/development.sqlite3"
-    db_connection.results_as_hash = true
-    db_connection
-  end
 
   def initialize(attributes={})
     set_attrtibutes(attributes)
@@ -37,23 +19,6 @@ class Post
     @errors["body"] = "can't be blank" if body.blank?
     @errors["author"] = "can't be blank" if author.blank?
     @errors.empty?
-  end
-
-  def new_record?
-    id.nil?
-  end
-
-  def save
-    return false unless valid?
-    #guard clause
-
-    if new_record?
-      insert
-    else
-      update
-    end
-
-    true
   end
   
   def insert
@@ -81,16 +46,6 @@ class Post
     connection.execute update_query, title, body, author, id
   end
 
-  def destroy
-    connection.execute("DELETE FROM posts WHERE posts.id = ?", id)
-  end
-
-  #if without .class -> when instance calls connection, will get into the self.connection loop
-  #need this because instance can't call class method directly!
-  def connection
-    puts "hello u called me!"
-    self.class.connection
-  end
 
   def comments
     comment_hashes = connection.execute 'SELECT * FROM comments WHERE comments.post_id = ?', id
