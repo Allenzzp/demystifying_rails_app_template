@@ -3,28 +3,18 @@ Rails.application.routes.draw do
   #method call, pass in a hash parameter
   #get({'/hello_world' => 'application#hello_world'})
   #if a hash is the last argument, can drop braces
-  get "/hello_world" => 'application#hello_world'
-  get 'hello/:name' => 'application#hello_world'
+  resources :posts do
+    resources :comments, only: [:create, :destroy]
+  end
 
-  get '/list_posts' => 'application#list_posts'
-  get '/show_post/:id' => 'application#show_post'
+  #multiple associated resources
+    #start with containing resource
+    #all the way to innermost resource
+      #for ids --> :resource_id  :id
 
-  get '/new_post' => 'application#new_post'
-  post '/create_post' => 'application#create_post'
+  resources :comments, only: :index
 
-  get '/edit_post/:id' => 'application#edit_post'
-  post '/update_post/:id' => 'application#update_post'
-
-  post 'delete_post/:id' => 'application#delete_post'
-
-  post '/create_comment_for_post/:post_id' => 'application#create_comment'
-
-  post '/list_posts/:post_id/delete_comment/:comment_id' => "application#delete_comment"
-
-  get "/list_comments" => "application#list_comments"
-
-
-
+end
 
 
 
@@ -91,4 +81,4 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end
+
