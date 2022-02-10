@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
 
+  protect_from_forgery with: :exception
     # C - create
     # R - read
     # U - update

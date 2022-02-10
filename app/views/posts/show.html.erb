@@ -1,2 +1,76 @@
-<h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
+<html>
+  <body>
+    <div class="errors">
+      <% @comment.errors.each do |attribute, error| %>
+        <p class="error" style="color: orange">
+          <%= attribute %>: <%= error %>
+        </p>
+      <% end %>
+    </div>
+
+    <div class="post">
+      <h2 class="title">
+        <%= @post.title %>
+      </h2>
+
+      <small class="meta">
+        <span class="author">
+          by <%= @post.author %> -
+        </span>
+        <em class="created_at">
+          <%= @post.created_At %>
+        </em>
+      </small>
+
+      <p class="body">
+        <%= @post.body %>
+      </p>
+
+      <br /> <br />
+      <div class="comments">
+        <h3>Comments:</h3>
+        <hr />
+        <% @post.comments.each_with_index do |comment, index| %>
+          <div class="comment">
+            <small class="comment_meta">
+              <span class="comment_author">
+                #<%= index + 1 %> by <%= comment.author %> -
+              </span>
+              <em class="comment_created_at">
+                <%= comment.created_At %>
+              </em>
+            </small>
+            <p class="comment_body">
+              <%= comment.body %>
+            </p>
+
+            <%= form_tag post_comment_path(@post.id, @comment.id), method: "delete" do %>
+              <%= submit_tag "Delete Comment" %>
+            <% end %>
+            
+          </div>
+          <hr />
+        <% end %>
+        
+        
+        <%= form_tag post_comments_path(@post.id) do %>
+          <%= label_tag 'Comment' %>
+          <%= text_area_tag 'comment[body]', @comment.body %>
+          <br /> <br />
+
+          <%= label_tag 'Name' %>
+          <%= text_field_tag 'comment[author]', @comment.author %>
+          <br /> <br />
+
+          <%= submit_tag "Add Comment" %>
+        <% end %>
+
+        <hr />
+      </div>
+    </div>
+    <br />
+    <%= my_link_to "Back to Posts", posts_path %> 
+    <!-- build html string -->
+    
+  </body>
+</html>
