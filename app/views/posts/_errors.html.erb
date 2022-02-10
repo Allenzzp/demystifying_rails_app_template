@@ -1,0 +1,8 @@
+<div class="errors">
+  <!-- arrribute is key in a hash -->
+  <% @post.errors.each do |attribute, error| %>
+    <p class="error" style="color: orange">
+      <%= attribute %>: <%= error %>
+    </p>
+  <% end %>
+</div>

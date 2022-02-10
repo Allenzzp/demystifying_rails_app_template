@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def create
-                    # mass assignment
+          # mass assignment
     @post = Post.new(params[:post])
 
     if @post.save
